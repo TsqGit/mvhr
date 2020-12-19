@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class helloController {
+    //测试
     @GetMapping("hello")
     public String hello() {
         return "hello";
