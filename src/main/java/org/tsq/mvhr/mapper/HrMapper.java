@@ -1,6 +1,9 @@
 package org.tsq.mvhr.mapper;
 
 import org.tsq.mvhr.model.Hr;
+import org.tsq.mvhr.model.Role;
+
+import java.util.List;
 
 public interface HrMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +19,6 @@ public interface HrMapper {
     int updateByPrimaryKey(Hr record);
 
     Hr loadUserByUsername(String userName);
+
+    List<Role> getHrRolesById(Integer id);
 }

@@ -10,6 +10,16 @@ public class helloController {
     public String hello() {
         return "hello";
     }
+
+    @GetMapping("/employee/basic")
+    public String basic() {
+        return "/employee/basic/**";
+    }
+
+    @GetMapping("/employee/advanced")
+    public String advanced() {
+        return "/employee/advanced/**";
+    }
 }
 
 
