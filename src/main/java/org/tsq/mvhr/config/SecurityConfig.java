@@ -76,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //登录路径
                 .loginProcessingUrl("/doLogin")
                 //登录后页面
-                .loginPage("/login")
+                //.loginPage("/login")
                 //登录成功后拦截回调
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
