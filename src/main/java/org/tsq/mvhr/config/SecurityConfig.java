@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -76,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //登录路径
                 .loginProcessingUrl("/doLogin")
                 //登录后页面
-                //.loginPage("/login")
+                .loginPage("/login")
                 //登录成功后拦截回调
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
@@ -125,7 +126,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(new LogoutSuccessHandler() {
                     @Override
                     public void onLogoutSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
-                        resp.setContentType("spplication/json;charset=utf-8");
+                        resp.setContentType("application/json;charset=utf-8");
                         PrintWriter out = resp.getWriter();
                         out.write(new ObjectMapper().writeValueAsString(RespBean.ok("注销成功！")));
                         out.flush();
@@ -135,6 +136,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 //关闭csrf使得可用postman测试
-                .csrf().disable();
+                .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new AuthenticationEntryPoint() {
+                    @Override
+                    public void commence(HttpServletRequest req, HttpServletResponse resp, AuthenticationException e) throws IOException, ServletException {
+                        resp.setContentType("application/json;charset=utf-8");
+                        PrintWriter out = resp.getWriter();
+                        RespBean respBean = RespBean.error("访问失败！");
+                        if (e instanceof InsufficientAuthenticationException) {
+                            respBean.setMsg("请求失败，请联系管理员！");
+                        }
+                        out.write(new ObjectMapper().writeValueAsString(respBean));
+                        out.flush();
+                        out.close();
+                    }
+                });
     }
 }
