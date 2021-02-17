@@ -11,5 +11,4 @@ public class MvhrApplication {
     public static void main(String[] args) {
         SpringApplication.run(MvhrApplication.class, args);
     }
-
 }
