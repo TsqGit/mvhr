@@ -1,5 +1,6 @@
 package org.tsq.mvhr.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.tsq.mvhr.model.Position;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface PositionMapper {
     int updateByPrimaryKey(Position record);
 
     List<Position> getAllPositions();
+
+    int deletePositionByIds(@Param("ids") Integer[] ids);
 }

@@ -83,4 +83,11 @@
   <select id="getAllPositions" resultMap="BaseResultMap" >
     SELECT * FROM `position`
   </select>
+
+  <delete id="deletePositionByIds" >
+    DELETE from position where id in
+    <foreach collection="ids" item="id" separator="," open="(" close=")">
+      #{id}
+    </foreach>
+  </delete>
 </mapper>
